@@ -4,9 +4,12 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef } from "react";
 import AnotherScreen from "./AnotherScree";
+import BottlePlusFilter from "./BottlePlusFilter";
 import BottomImage from "./BottomImage";
 import CombinedImage from "./CombinedImage";
+import CombinedImageWithText from "./CombinedImageWithText";
 import FilterImage from "./FilterImage";
+import Last from "./Last";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,7 +60,19 @@ export default function ScrollAnimationSection() {
   const combinedLayersImageRef = useRef<HTMLDivElement>(null);
   const combinedLayersRef = useRef<HTMLDivElement>(null);
 
+  const combinedLayersWithTextRef = useRef<HTMLDivElement>(null);
+  const combinedLayersWithTextImageRef = useRef<HTMLDivElement>(null);
+
+  const bottlePlusFilterRef = useRef<HTMLDivElement>(null);
+  const bottlePlusFilterImageRef = useRef<HTMLDivElement>(null);
+
+  const lastRef = useRef<HTMLDivElement>(null);
+  const lastImageRef = useRef<HTMLDivElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
+    const tl1 = gsap.timeline();
+
     gsap.registerPlugin(ScrollTrigger);
     if (!bottomImageRef.current) return;
 
@@ -435,10 +450,107 @@ export default function ScrollAnimationSection() {
         },
         0
       );
+
+    const combinedLayersWithTextTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: combinedLayersWithTextRef.current,
+        start: "top center",
+        end: "bottom 90%",
+        scrub: 2,
+      },
+    });
+
+    combinedLayersWithTextTimeline
+      .to(
+        combinedLayersWithTextImageRef.current,
+        {
+          opacity: 1,
+        },
+        0
+      )
+      .to(
+        combinedLayersImageRef.current,
+        {
+          opacity: 0,
+        },
+        0
+      );
+
+    const bottlePlusFilterTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: bottlePlusFilterRef.current,
+        start: "top center",
+        end: "bottom 90%",
+        scrub: 2,
+      },
+    });
+    bottlePlusFilterTimeline
+      .to(
+        combinedLayersWithTextImageRef.current,
+        {
+          opacity: 0,
+        },
+        0
+      )
+      .to(
+        bottlePlusFilterImageRef.current,
+        {
+          opacity: 1,
+        },
+        0
+      );
+
+    const lastTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: lastRef.current,
+        start: "top bottom",
+        end: "bottom 90%",
+        scrub: 2,
+      },
+    });
+
+    lastTimeline
+      .to(
+        lastImageRef.current,
+        {
+          opacity: 1,
+        },
+        0
+      )
+      .to(
+        bottlePlusFilterImageRef.current,
+        {
+          opacity: 0,
+        },
+        0
+      )
+      .to(
+        backgroundRef.current,
+        {
+          opacity: 1, // Lower opacity for subtle background
+        },
+        0
+      );
   });
 
   return (
     <div ref={sectionRef} className="relative w-full h-screen">
+      {/* Fixed background with dark overlay */}
+      <div
+        ref={backgroundRef}
+        className="fixed inset-0 z-0"
+        style={{
+          backgroundImage: 'url("/images/end.jpg")',
+          backgroundSize: "100% 100%",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          opacity: 0,
+        }}
+      >
+        {/* Dark overlay to make it darker */}
+        <div className="absolute inset-0 bg-black" style={{ opacity: 0.8 }} />
+      </div>
+
       <BottomImage
         onImageRef={(ref) => {
           bottomImageRef.current = ref;
@@ -567,6 +679,39 @@ export default function ScrollAnimationSection() {
           combinedLayersImageRef.current = ref;
         }}
       />
+
+      <div
+        ref={combinedLayersWithTextRef}
+        className="h-screen w-24  relative"
+      ></div>
+
+      <CombinedImageWithText
+        width={430}
+        height={720}
+        onImageRef={(ref) => {
+          combinedLayersWithTextImageRef.current = ref;
+        }}
+      />
+
+      <div ref={bottlePlusFilterRef} className="h-screen w-24  relative"></div>
+
+      <BottlePlusFilter
+        width={360}
+        height={720}
+        onImageRef={(ref) => {
+          bottlePlusFilterImageRef.current = ref;
+        }}
+      />
+      <AnotherScreen />
+      <div ref={lastRef} className="h-screen w-24  relative"></div>
+
+      <Last
+        onImageRef={(ref) => {
+          lastImageRef.current = ref;
+        }}
+      />
+
+      <AnotherScreen />
     </div>
   );
 }
