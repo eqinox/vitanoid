@@ -11,14 +11,6 @@ import CombinedImageWithText from "./CombinedImageWithText";
 import FilterImage from "./FilterImage";
 import Last from "./Last";
 
-gsap.registerPlugin(ScrollTrigger);
-
-const filterImages = [
-  "/images/green-filter.jpg",
-  "/images/purple-filter.jpg",
-  "/images/red-filter.jpg",
-];
-
 export default function ScrollAnimationSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -69,6 +61,7 @@ export default function ScrollAnimationSection() {
   const lastRef = useRef<HTMLDivElement>(null);
   const lastImageRef = useRef<HTMLDivElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl1 = gsap.timeline();
@@ -536,7 +529,10 @@ export default function ScrollAnimationSection() {
           opacity: 1, // Lower opacity for subtle background
         },
         0
-      );
+      )
+      .to(overlayRef.current, {
+        opacity: 0.8,
+      });
   });
 
   return (
@@ -550,11 +546,15 @@ export default function ScrollAnimationSection() {
           backgroundSize: "100% 100%",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          opacity: 0,
+          opacity: 0.3,
         }}
       >
         {/* Dark overlay to make it darker */}
-        <div className="absolute inset-0 bg-black" style={{ opacity: 0.8 }} />
+        <div
+          ref={overlayRef}
+          className="absolute inset-0 bg-black"
+          style={{ opacity: 0.6 }}
+        />
       </div>
 
       <BottomImage
