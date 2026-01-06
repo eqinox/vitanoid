@@ -465,6 +465,7 @@ export default function ScrollAnimationSection() {
         combinedLayersWithTextImageRef.current,
         {
           opacity: 1,
+          scale: 1,
         },
         0
       )
@@ -472,6 +473,7 @@ export default function ScrollAnimationSection() {
         combinedLayersImageRef.current,
         {
           opacity: 0,
+          scale: 1.7,
         },
         0
       );
@@ -489,6 +491,8 @@ export default function ScrollAnimationSection() {
         combinedLayersWithTextImageRef.current,
         {
           opacity: 0,
+          scale: 0.7,
+          y: "-20%",
         },
         0
       )
@@ -521,6 +525,8 @@ export default function ScrollAnimationSection() {
         bottlePlusFilterImageRef.current,
         {
           opacity: 0,
+          scale: 0.7,
+          y: "20%",
         },
         0
       )
@@ -562,7 +568,7 @@ export default function ScrollAnimationSection() {
           ref={textDivRef}
           className="text-black text-center flex items-center justify-center h-full text-3xl opacity-0"
         >
-          Some test text here with a lot of text to see how it looks and behaves
+          Нано филтер за пречистване на вода
         </div>
       </div>
 
@@ -582,6 +588,7 @@ export default function ScrollAnimationSection() {
       />
 
       <FilterImage
+        imageText="activated carbon"
         onTextRef={(ref) => {
           fifthLayerTextRef.current = ref;
         }}
@@ -596,6 +603,7 @@ export default function ScrollAnimationSection() {
       />
 
       <FilterImage
+        imageText="mechanical filter"
         onTextRef={(ref) => {
           fourthLayerTextRef.current = ref;
         }}
@@ -610,6 +618,7 @@ export default function ScrollAnimationSection() {
       />
 
       <FilterImage
+        imageText="nanomembrane"
         onTextRef={(ref) => {
           thirdLayerTextRef.current = ref;
         }}
@@ -624,6 +633,7 @@ export default function ScrollAnimationSection() {
       />
 
       <FilterImage
+        imageText="microalgae"
         onTextRef={(ref) => {
           secondLayerTextRef.current = ref;
         }}
@@ -638,6 +648,7 @@ export default function ScrollAnimationSection() {
       />
 
       <FilterImage
+        imageText="supporting filter"
         onTextRef={(ref) => {
           firstLayerTextRef.current = ref;
         }}
@@ -697,7 +708,7 @@ export default function ScrollAnimationSection() {
 
       <BottlePlusFilter
         width={360}
-        height={720}
+        // height={720}
         onImageRef={(ref) => {
           bottlePlusFilterImageRef.current = ref;
         }}
